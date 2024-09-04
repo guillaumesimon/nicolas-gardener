@@ -89,7 +89,7 @@ const ChatInterface: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-grow overflow-y-auto mb-4">
+      <div className="flex-grow overflow-y-auto mb-4 px-2"> {/* Added px-2 */}
         <ChatHistory 
           messages={messages} 
           showWelcomeMessages={!hasUserSentMessage} 
@@ -98,7 +98,7 @@ const ChatInterface: React.FC = () => {
         />
         <div ref={messagesEndRef} />
       </div>
-      <div className="mt-auto">
+      <div className="mt-auto px-2"> {/* Added px-2 */}
         {!hasUserSentMessage && <ConversationStarters onSelect={handleSendMessage} />}
         <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
       </div>

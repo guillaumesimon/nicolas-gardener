@@ -39,7 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={`${inter.className} font-sans text-sm bg-gradient-to-br from-indigo-50 to-indigo-100 min-h-screen flex flex-col`}>
+      <body className={`${inter.className} bg-gradient-to-br from-indigo-50 to-indigo-100 min-h-screen flex flex-col`}>
         <main className="flex-grow flex flex-col h-screen p-4 sm:p-6 md:p-8">
           <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 flex-grow flex flex-col overflow-hidden">
             <ChatInterface />
