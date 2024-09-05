@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import MessageInput from './MessageInput';
 import ChatHistory from './ChatHistory';
 import ConversationStarters from './ConversationStarters';
 // import PlantImage from './PlantImage';
 
 const welcomeMessages = [
-  "Bienvenue sur Nicolas, votre assistant jardinage !",
-  "Je suis là pour répondre à toutes vos questions sur le jardinage. N'hésitez pas à me demander conseil !"
+  "Salut je suis Nicolas, votre assistant jardinage !",
 ];
 
 const ChatInterface: React.FC = () => {
@@ -130,11 +130,33 @@ const ChatInterface: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4 flex flex-col">
+        {!hasUserSentMessage && (
+          <div className="flex-grow flex items-center justify-center">
+            <div className="flex flex-col items-center max-w-2xl">
+              <div className="mb-4">
+                <Image
+                  src="/Gardener.png"
+                  alt="Gardener"
+                  width={150}
+                  height={150}
+                  className="rounded-full"
+                />
+              </div>
+              <div className="text-center">
+                {welcomeMessages.map((message, index) => (
+                  <p key={index} className="mb-2">
+                    {message}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
         <ChatHistory 
           messages={messages} 
-          showWelcomeMessages={!hasUserSentMessage} 
-          welcomeMessages={welcomeMessages}
+          showWelcomeMessages={false} 
+          welcomeMessages={[]}
           currentAssistantMessage={currentAssistantMessage}
         />
         <div ref={messagesEndRef} />
