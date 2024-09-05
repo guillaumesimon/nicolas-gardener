@@ -1,3 +1,7 @@
+import ChatInterface from './components/ChatInterface';
+
 export default function Home() {
-  return null;
+  return (
+    <ChatInterface />
+  );
 }

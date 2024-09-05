@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: '*',
       },
+      {
+        protocol: 'https',
+        hostname: 'replicate.delivery',
+      },
     ],
     loader: 'custom',
     loaderFile: './app/image-loader.js',
