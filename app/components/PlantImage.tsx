@@ -48,7 +48,6 @@ const PlantImage: React.FC<PlantImageProps> = ({ plantName }) => {
         />
       </div>
       {imageError && <p className="text-sm text-red-500">Impossible de charger l&apos;image</p>}
-      <p className="text-sm text-gray-800">Voici une image de {plantName}</p>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ConversationStartersProps {
   onSelect: (starter: string) => void;
@@ -8,8 +8,15 @@ interface ConversationStartersProps {
 }
 
 const ConversationStarters: React.FC<ConversationStartersProps> = ({ onSelect, starters }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="flex flex-wrap gap-2 mb-4">
+    <div className={`flex flex-wrap gap-2 mb-4 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
       {starters.map((starter, index) => (
         <button
           key={index}

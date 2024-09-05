@@ -144,7 +144,7 @@ const ChatInterface: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
       <div className="p-4">
-        {!hasUserSentMessage && (
+        {!hasUserSentMessage && conversationStarters.length > 0 && (
           <ConversationStarters onSelect={handleSendMessage} starters={conversationStarters} />
         )}
         <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
