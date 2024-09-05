@@ -24,8 +24,11 @@ const ChatInterface: React.FC = () => {
     const fetchConversationStarters = async () => {
       try {
         console.log('Fetching conversation starters...');
-        const timestamp = new Date().getTime();
-        const response = await fetch(`/api/conversation-starters?t=${timestamp}`);
+        const response = await fetch('/api/conversation-starters', {
+          next: {
+            revalidate: 0 // Revalidate immediately
+          }
+        });
         const data = await response.json();
         console.log('Received conversation starters:', data.starters);
         setConversationStarters(data.starters);
