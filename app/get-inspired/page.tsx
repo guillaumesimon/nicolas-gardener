@@ -6,6 +6,7 @@ import Image from 'next/image';
 export default function GetInspired() {
   const [prompt, setPrompt] = useState('');
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [improvedPrompt, setImprovedPrompt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,6 +22,7 @@ export default function GetInspired() {
       });
       const data = await response.json();
       setGeneratedImage(data.image);
+      setImprovedPrompt(data.improvedPrompt);
     } catch (error) {
       console.error('Error generating image:', error);
     } finally {
@@ -47,6 +49,11 @@ export default function GetInspired() {
           {isLoading ? 'Generating...' : 'Generate Image'}
         </button>
       </form>
+      {improvedPrompt && (
+        <div className="mt-4 text-sm text-gray-600">
+          <strong>Improved prompt:</strong> {improvedPrompt}
+        </div>
+      )}
       {generatedImage && (
         <div className="mt-8">
           <Image src={generatedImage} alt="Generated image" width={512} height={512} className="rounded-lg shadow-lg" />
