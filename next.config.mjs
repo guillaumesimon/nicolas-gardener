@@ -13,6 +13,7 @@ const nextConfig = {
     ],
     loader: 'custom',
     loaderFile: './app/image-loader.js',
+    formats: ['image/webp'],
   },
 };
 

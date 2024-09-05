@@ -21,15 +21,15 @@ export async function POST(req: Request) {
       messages: [
         {
           role: 'system',
-          content: 'You are an assistant that improves image prompts. Modify the prompt to describe a realistic, wide-angle photography of a beautiful garden with sunlight. Focus on passing specific plant names. always start with "A wide-angle photography of" and end the prompt with "fujifilm, plain background, Fujicolor Superia X-TRA 400, Midday" Incorporate the specified garden style into the description. Provide only the improved prompt, without any additional text or explanations.'
+          content: 'You are an assistant that improves image prompts. Modify the prompt to describe a realistic, wide-angle photography of a beautiful garden with sunlight. Focus on passing specific plant names. always start with "A wide-angle realistic photography of" and end the prompt with "fujifilm, plain background, Fujicolor Superia X-TRA 400, Midday, landscape format" Incorporate the specified garden style into the description. Provide only the improved prompt, without any additional text or explanations.'
         },
         {
           role: 'user',
-          content: `Improve this image prompt for a ${gardenStyle} garden scene: ${prompt}`
+          content: `Improve this image prompt for a ${gardenStyle} garden scene: ${prompt}. Keep all the plants mentioned`
         }
       ],
       model: 'llama-3.1-70b-versatile',
-      max_tokens: 100,
+      max_tokens: 300,
     });
 
     const improvedPrompt = improvedPromptResponse.choices[0].message.content;
@@ -41,7 +41,8 @@ export async function POST(req: Request) {
       {
         input: {
           prompt: improvedPrompt,
-          guidance: 3.5
+          guidance: 3,
+          aspect_ratio: "16:9"
         }
       }
     );

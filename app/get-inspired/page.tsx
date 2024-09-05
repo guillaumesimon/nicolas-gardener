@@ -41,15 +41,9 @@ export default function GetInspired() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <h1 className="text-2xl font-bold mb-4">Get Inspired</h1>
+      <h1 className="text-2xl font-bold mb-4">Get Inspired by Nature's Beauty!
+      </h1>
       <form onSubmit={handleSubmit} className="w-full max-w-md">
-        <input
-          type="text"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Enter a prompt for image generation..."
-          className="w-full p-2 border-2 border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-gray-800 placeholder-gray-400"
-        />
         <select
           value={gardenStyle}
           onChange={(e) => setGardenStyle(e.target.value)}
@@ -62,12 +56,20 @@ export default function GetInspired() {
             </option>
           ))}
         </select>
+        <input
+          type="text"
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          placeholder="What leafy friends would you like to see blooming?
+"
+          className="w-full p-2 border-2 border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-gray-800 placeholder-gray-400"
+        />
         <button
           type="submit"
           className="w-full bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
           disabled={isLoading}
         >
-          {isLoading ? 'Generating...' : 'Generate Image'}
+          {isLoading ? 'Generating...' : 'Bring Your Garden Dreams to Life!'}
         </button>
       </form>
       {improvedPrompt && (
@@ -76,8 +78,16 @@ export default function GetInspired() {
         </div>
       )}
       {generatedImage && (
-        <div className="mt-8">
-          <Image src={generatedImage} alt="Generated image" width={512} height={512} className="rounded-lg shadow-lg" />
+        <div className="mt-8 w-full">
+          <div className="relative w-full" style={{ paddingTop: '56.25%' }}> {/* 16:9 aspect ratio */}
+            <Image 
+              src={generatedImage}
+              alt="Generated garden image"
+              layout="fill"
+              objectFit="contain"
+              className="rounded-lg shadow-lg"
+            />
+          </div>
         </div>
       )}
     </div>
