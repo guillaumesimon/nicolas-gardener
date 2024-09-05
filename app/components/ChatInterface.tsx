@@ -22,21 +22,15 @@ const ChatInterface: React.FC = () => {
 
   useEffect(() => {
     const fetchConversationStarters = async () => {
-      if (hasFetchedRef.current) {
-        console.log('Skipping fetch, already fetched');
-        return;
-      }
-      
       try {
         console.log('Fetching conversation starters...');
-        hasFetchedRef.current = true;
-        const response = await fetch('/api/conversation-starters');
+        const timestamp = new Date().getTime();
+        const response = await fetch(`/api/conversation-starters?t=${timestamp}`);
         const data = await response.json();
         console.log('Received conversation starters:', data.starters);
         setConversationStarters(data.starters);
       } catch (error) {
         console.error('Error fetching conversation starters:', error);
-        hasFetchedRef.current = false;
       }
     };
 
