@@ -12,22 +12,23 @@ const groq = new Groq({
 
 export async function POST(req: Request) {
   try {
-    const { prompt } = await req.json();
+    const { prompt, gardenStyle } = await req.json();
     console.log('Original prompt:', prompt);
+    console.log('Garden style:', gardenStyle);
 
     // Improve prompt using Groq
     const improvedPromptResponse = await groq.chat.completions.create({
       messages: [
         {
           role: 'system',
-          content: 'You are an assistant that improves image prompts. Modify the prompt to describe a realistic, wide-angle photography of a beautiful garden with sunlight. Focus on composition and atmosphere rather than specific details. Provide only the improved prompt, without any additional text or explanations.'
+          content: 'You are an assistant that improves image prompts. Modify the prompt to describe a realistic, wide-angle photography of a beautiful garden with sunlight. Focus on passing specific plant names. always start with "A wide-angle photography of" and end the prompt with "fujifilm, plain background, Fujicolor Superia X-TRA 400, Midday" Incorporate the specified garden style into the description. Provide only the improved prompt, without any additional text or explanations.'
         },
         {
           role: 'user',
-          content: `Improve this image prompt for a garden scene: ${prompt}`
+          content: `Improve this image prompt for a ${gardenStyle} garden scene: ${prompt}`
         }
       ],
-      model: 'mixtral-8x7b-32768',
+      model: 'llama-3.1-70b-versatile',
       max_tokens: 100,
     });
 

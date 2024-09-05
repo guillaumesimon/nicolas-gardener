@@ -3,8 +3,17 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
+const gardenStyles = [
+  { value: 'english', label: 'English Garden' },
+  { value: 'japanese', label: 'Japanese Garden' },
+  { value: 'mediterranean', label: 'Mediterranean Garden' },
+  { value: 'french', label: 'French Garden' },
+  { value: 'modern', label: 'Modern Garden' },
+];
+
 export default function GetInspired() {
   const [prompt, setPrompt] = useState('');
+  const [gardenStyle, setGardenStyle] = useState('');
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [improvedPrompt, setImprovedPrompt] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +27,7 @@ export default function GetInspired() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, gardenStyle }),
       });
       const data = await response.json();
       setGeneratedImage(data.image);
@@ -39,8 +48,20 @@ export default function GetInspired() {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Enter a prompt for image generation..."
-          className="w-full p-2 border-2 border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4"
+          className="w-full p-2 border-2 border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-gray-800 placeholder-gray-400"
         />
+        <select
+          value={gardenStyle}
+          onChange={(e) => setGardenStyle(e.target.value)}
+          className="w-full p-2 border-2 border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-gray-800"
+        >
+          <option value="">Select a garden style</option>
+          {gardenStyles.map((style) => (
+            <option key={style.value} value={style.value}>
+              {style.label}
+            </option>
+          ))}
+        </select>
         <button
           type="submit"
           className="w-full bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
