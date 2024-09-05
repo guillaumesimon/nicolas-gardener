@@ -40,6 +40,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className="h-full">
+      <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      </head>
       <body className={`${inter.className} bg-gradient-to-br from-indigo-50 to-indigo-100 min-h-screen flex flex-col h-full`}>
         <main className="flex-grow flex flex-col h-full p-4 sm:p-6 md:p-8">
           <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 flex-grow flex flex-col overflow-hidden h-full">
