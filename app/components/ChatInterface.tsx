@@ -14,7 +14,7 @@ const welcomeMessages = [
 const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasUserSentMessage, setHasUserSentMessage] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const [currentAssistantMessage, setCurrentAssistantMessage] = useState('');
   const [conversationStarters, setConversationStarters] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -44,8 +44,8 @@ const ChatInterface: React.FC = () => {
   }, [messages, currentAssistantMessage]);
 
   const handleSendMessage = async (message: string) => {
-    if (!hasUserSentMessage) {
-      setHasUserSentMessage(true);
+    if (!hasUserInteracted) {
+      setHasUserInteracted(true);
     }
     setIsLoading(true);
 
@@ -130,39 +130,31 @@ const ChatInterface: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col">
-        {!hasUserSentMessage && (
-          <div className="flex-grow flex items-center justify-center">
-            <div className="flex flex-col items-center max-w-2xl">
-              <div className="mb-4">
-                <Image
-                  src="/Gardener.png"
-                  alt="Gardener"
-                  width={150}
-                  height={150}
-                  className="rounded-full"
-                />
-              </div>
-              <div className="text-center">
-                {welcomeMessages.map((message, index) => (
-                  <p key={index} className="mb-2">
-                    {message}
-                  </p>
-                ))}
-              </div>
-            </div>
+      <div className="flex-1 overflow-y-auto p-4 relative">
+        {!hasUserInteracted ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <Image
+              src="/Gardener.png"
+              alt="Nicolas le jardinier"
+              width={200}
+              height={200}
+            />
+            <p className="mt-4 text-xl font-semibold text-center">
+              {welcomeMessages[0]}
+            </p>
           </div>
+        ) : (
+          <ChatHistory 
+            messages={messages} 
+            showWelcomeMessages={false}
+            welcomeMessages={welcomeMessages}
+            currentAssistantMessage={currentAssistantMessage}
+          />
         )}
-        <ChatHistory 
-          messages={messages} 
-          showWelcomeMessages={false} 
-          welcomeMessages={[]}
-          currentAssistantMessage={currentAssistantMessage}
-        />
         <div ref={messagesEndRef} />
       </div>
       <div className="p-4">
-        {!hasUserSentMessage && conversationStarters.length > 0 && (
+        {!hasUserInteracted && conversationStarters.length > 0 && (
           <ConversationStarters onSelect={handleSendMessage} starters={conversationStarters} />
         )}
         <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
