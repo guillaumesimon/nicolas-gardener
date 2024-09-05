@@ -16,7 +16,32 @@ const ChatInterface: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasUserSentMessage, setHasUserSentMessage] = useState(false);
   const [currentAssistantMessage, setCurrentAssistantMessage] = useState('');
+  const [conversationStarters, setConversationStarters] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const hasFetchedRef = useRef(false);
+
+  useEffect(() => {
+    const fetchConversationStarters = async () => {
+      if (hasFetchedRef.current) {
+        console.log('Skipping fetch, already fetched');
+        return;
+      }
+      
+      try {
+        console.log('Fetching conversation starters...');
+        hasFetchedRef.current = true;
+        const response = await fetch('/api/conversation-starters');
+        const data = await response.json();
+        console.log('Received conversation starters:', data.starters);
+        setConversationStarters(data.starters);
+      } catch (error) {
+        console.error('Error fetching conversation starters:', error);
+        hasFetchedRef.current = false;
+      }
+    };
+
+    fetchConversationStarters();
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -108,8 +133,8 @@ const ChatInterface: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-grow overflow-y-auto mb-4 px-2"> {/* Added px-2 */}
+    <div className="flex flex-col h-screen">
+      <div className="flex-1 overflow-y-auto p-4">
         <ChatHistory 
           messages={messages} 
           showWelcomeMessages={!hasUserSentMessage} 
@@ -118,8 +143,10 @@ const ChatInterface: React.FC = () => {
         />
         <div ref={messagesEndRef} />
       </div>
-      <div className="mt-auto px-2"> {/* Added px-2 */}
-        {!hasUserSentMessage && <ConversationStarters onSelect={handleSendMessage} />}
+      <div className="p-4">
+        {!hasUserSentMessage && (
+          <ConversationStarters onSelect={handleSendMessage} starters={conversationStarters} />
+        )}
         <MessageInput onSendMessage={handleSendMessage} isLoading={isLoading} />
       </div>
     </div>

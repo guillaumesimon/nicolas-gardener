@@ -4,16 +4,10 @@ import React from 'react';
 
 interface ConversationStartersProps {
   onSelect: (starter: string) => void;
+  starters: string[];
 }
 
-const ConversationStarters: React.FC<ConversationStartersProps> = ({ onSelect }) => {
-  const starters = [
-    "Comment faire pousser des tomates ?",
-    "Meilleures plantes d'intérieur",
-    "Comment composter ?",
-    "Conseils anti-nuisibles"
-  ];
-
+const ConversationStarters: React.FC<ConversationStartersProps> = ({ onSelect, starters }) => {
   return (
     <div className="flex flex-wrap gap-2 mb-4">
       {starters.map((starter, index) => (
