@@ -42,11 +42,14 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
     console.log('Received messages:', JSON.stringify(messages));
 
+    // Filtrer les messages pour ne garder que les propriétés autorisées
+    const cleanedMessages = messages.map(({ role, content }) => ({ role, content }));
+
     console.log('Initiating Anthropic API call');
     const stream = await anthropic.messages.create({
       model: "claude-3-5-sonnet-20240620",
       max_tokens: 1024,
-      messages: messages,
+      messages: cleanedMessages,
       system: SYSTEM_PROMPT,
       stream: true,
     });

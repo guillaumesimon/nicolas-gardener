@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import MessageInput from './MessageInput';
 import ChatHistory from './ChatHistory';
 import ConversationStarters from './ConversationStarters';
+// import PlantImage from './PlantImage';
 
 const welcomeMessages = [
   "Bienvenue sur Nicolas, votre assistant jardinage !",
@@ -26,15 +27,33 @@ const ChatInterface: React.FC = () => {
       setHasUserSentMessage(true);
     }
     setIsLoading(true);
-    setMessages(prevMessages => [...prevMessages, { role: 'user', content: message }]);
 
     try {
+      // Extract plant name
+      console.log('Extracting plant name...');
+      const extractResponse = await fetch('/api/extract-plant', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message }),
+      });
+      const { plantName } = await extractResponse.json();
+      console.log('Extracted plant name:', plantName);
+
+      // Add the message with plantName to the state
+      setMessages(prevMessages => [...prevMessages, { role: 'user', content: message, plantName }]);
+
+      // Generate answer
+      console.log('Generating answer...');
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ messages: [...messages, { role: 'user', content: message }] }),
+        body: JSON.stringify({ 
+          messages: [...messages, { role: 'user', content: message }].map(({ role, content }) => ({ role, content }))
+        }),
       });
 
       if (!response.ok) {
@@ -55,7 +74,6 @@ const ChatInterface: React.FC = () => {
             if (line.startsWith('data: ')) {
               const data = line.slice(6);
               if (data === '[DONE]') {
-                // Stream is finished
                 break;
               }
               try {
@@ -70,6 +88,7 @@ const ChatInterface: React.FC = () => {
             }
           }
         }
+        console.log('Full assistant message:', fullMessage);
         setMessages(prevMessages => [
           ...prevMessages,
           { role: 'assistant', content: fullMessage }
@@ -80,6 +99,7 @@ const ChatInterface: React.FC = () => {
       console.error('Error:', error);
       setMessages(prevMessages => [
         ...prevMessages,
+        { role: 'user', content: message },
         { role: 'assistant', content: "Désolé, une erreur s'est produite." }
       ]);
     } finally {
