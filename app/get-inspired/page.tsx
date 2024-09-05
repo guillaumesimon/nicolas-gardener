@@ -41,7 +41,7 @@ export default function GetInspired() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <h1 className="text-2xl font-bold mb-4">Get Inspired by Nature's Beauty!
+      <h1 className="text-2xl font-bold mb-4">Get Inspired by Natures Beauty!
       </h1>
       <form onSubmit={handleSubmit} className="w-full max-w-md">
         <select
