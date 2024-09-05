@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import imageLoader from '../image-loader';
 
 interface PlantImageProps {
   plantName: string;
@@ -38,6 +39,7 @@ const PlantImage: React.FC<PlantImageProps> = ({ plantName }) => {
   return (
     <div className="bg-gray-100 p-2 rounded-t-2xl rounded-r-2xl rounded-bl-xl max-w-[70%] shadow-sm">
       <div className="relative aspect-w-16 aspect-h-9 mb-2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageUrl}
           alt={plantName}
@@ -45,7 +47,7 @@ const PlantImage: React.FC<PlantImageProps> = ({ plantName }) => {
           onError={() => setImageError(true)}
         />
       </div>
-      {imageError && <p className="text-sm text-red-500">Impossible de charger l'image</p>}
+      {imageError && <p className="text-sm text-red-500">Impossible de charger l&apos;image</p>}
       <p className="text-sm text-gray-800">Voici une image de {plantName}</p>
     </div>
   );

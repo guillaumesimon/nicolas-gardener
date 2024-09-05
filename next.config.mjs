@@ -7,6 +7,8 @@ const nextConfig = {
         hostname: '*',
       },
     ],
+    loader: 'custom',
+    loaderFile: './app/image-loader.js',
   },
 };
 

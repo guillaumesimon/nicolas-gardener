@@ -41,9 +41,8 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
     console.log('Received messages:', JSON.stringify(messages));
-
     // Filtrer les messages pour ne garder que les propriétés autorisées
-    const cleanedMessages = messages.map(({ role, content }) => ({ role, content }));
+    const cleanedMessages = messages.map(({ role, content }: { role: string; content: string }) => ({ role, content }));
 
     console.log('Initiating Anthropic API call');
     const stream = await anthropic.messages.create({
