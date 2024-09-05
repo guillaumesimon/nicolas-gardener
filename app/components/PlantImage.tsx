@@ -16,7 +16,7 @@ const PlantImage: React.FC<PlantImageProps> = ({ plantName }) => {
 
       console.log('Fetching image for plant:', plantName);
       try {
-        const response = await fetch(`/api/image-search?query=${encodeURIComponent(plantName + ' plant')}`);
+        const response = await fetch(`/api/image-search?query=${encodeURIComponent(plantName + ' plant photography')}`);
         const data = await response.json();
         if (data.imageUrl) {
           console.log('Image URL received:', data.imageUrl);
