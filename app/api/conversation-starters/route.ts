@@ -5,8 +5,9 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+
 export async function GET() {
-  console.log('Initiating conversation starters generation');
+  console.log('Conversation starters API route called');
   try {
     console.log('Calling Groq API to generate conversation starters');
     const response = await groq.chat.completions.create({
@@ -36,6 +37,13 @@ export async function GET() {
     return NextResponse.json({ starters });
   } catch (error) {
     console.error('Error generating conversation starters:', error);
-    return NextResponse.json({ error: 'Failed to generate conversation starters' }, { status: 500 });
+    // Fallback to static starters
+    const fallbackStarters = [
+      "Comment cultiver des tomates ?",
+      "Quelles plantes pour l'ombre ?",
+      "Astuces pour un compost réussi ?",
+      "Combattre les pucerons naturellement ?"
+    ];
+    return NextResponse.json({ starters: fallbackStarters });
   }
 }
