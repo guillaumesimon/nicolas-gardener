@@ -23,10 +23,17 @@ export async function POST(req: Request) {
 
     console.log('Anthropic API response:', JSON.stringify(response, null, 2));
 
-    const plantName = response.content[0].text;
+    let plantName = 'No plant';
+    if (response.content && response.content.length > 0) {
+      const content = response.content[0];
+      if ('text' in content) {
+        plantName = content.text;
+      }
+    }
+
     console.log('Extracted plant name:', plantName);
 
-    if (!plantName || typeof plantName !== 'string') {
+    if (!plantName || typeof plantName !== 'string' || plantName === 'No plant') {
       console.log('No valid plant name found, returning "No plant"');
       return NextResponse.json({ plantName: 'No plant' });
     }
