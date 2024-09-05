@@ -39,10 +39,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr">
-      <body className={`${inter.className} bg-gradient-to-br from-indigo-50 to-indigo-100 min-h-screen flex flex-col`}>
-        <main className="flex-grow flex flex-col h-screen p-4 sm:p-6 md:p-8">
-          <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 flex-grow flex flex-col overflow-hidden">
+    <html lang="fr" className="h-full">
+      <body className={`${inter.className} bg-gradient-to-br from-indigo-50 to-indigo-100 min-h-screen flex flex-col h-full`}>
+        <main className="flex-grow flex flex-col h-full p-4 sm:p-6 md:p-8">
+          <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 flex-grow flex flex-col overflow-hidden h-full">
             <ChatInterface />
           </div>
         </main>
