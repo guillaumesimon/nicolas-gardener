@@ -1,5 +1,18 @@
 import { NextResponse } from 'next/server';
 
+const BOTANICAL_SITES = [
+  'inaturalist.org',
+  'plantnet.org',
+  'gardenersworld.com',
+  'rhs.org.uk',
+  'missouribotanicalgarden.org',
+  'kew.org',
+  'botanicalart.com',
+  'plantillustrations.org',
+  'botanicalgarden.ubc.ca',
+  'botany.org'
+];
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('query');
@@ -12,7 +25,8 @@ export async function GET(request: Request) {
   }
 
   try {
-    const enhancedQuery = `${query} plant botanical photograph -illustration -drawing -cartoon`;
+    const siteRestriction = BOTANICAL_SITES.map(site => `site:${site}`).join(' OR ');
+    const enhancedQuery = `(${siteRestriction}) ${query} plant botanical photograph -illustration -drawing -cartoon`;
     const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_API_KEY}&cx=${process.env.GOOGLE_SEARCH_ENGINE_ID}&q=${encodeURIComponent(enhancedQuery)}&searchType=image&num=1&fileType=jpg,png&imgType=photo&imgSize=large&rights=cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived`);
     const data = await response.json();
 
