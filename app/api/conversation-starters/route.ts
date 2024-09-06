@@ -14,7 +14,7 @@ export async function GET() {
       messages: [
         {
           role: 'system',
-          content: 'You are an assistant that generates short conversation starters in the form of questions that a person would typically ask a gardener. Each question should be in French, be a maximum of 5 words, and focus on common gardening topics or problems. Provide only the questions, without any introductory text or numbering.'
+          content: 'You are an assistant that generates short conversation starters in the form of questions that a person would typically ask a gardener. Each question should be in French, be a maximum of 5 words, and focus on common gardening topics or problems and contain a plant name. Provide only the questions, without any introductory text or numbering.'
         },
         {
           role: 'user',
