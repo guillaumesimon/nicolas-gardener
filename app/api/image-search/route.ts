@@ -12,7 +12,8 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_API_KEY}&cx=${process.env.GOOGLE_SEARCH_ENGINE_ID}&q=${query}&searchType=image&num=1`);
+    const enhancedQuery = `${query} plant botanical photograph -illustration -drawing -cartoon`;
+    const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_API_KEY}&cx=${process.env.GOOGLE_SEARCH_ENGINE_ID}&q=${encodeURIComponent(enhancedQuery)}&searchType=image&num=1&fileType=jpg,png&imgType=photo&imgSize=large&rights=cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived`);
     const data = await response.json();
 
     console.log('Google API response:', JSON.stringify(data, null, 2));
@@ -22,7 +23,7 @@ export async function GET(request: Request) {
       console.log('Found image URL:', imageUrl);
       return NextResponse.json({ imageUrl });
     } else {
-      console.log('No image found for query:', query);
+      console.log('No image found for query:', enhancedQuery);
       return NextResponse.json({ error: 'No image found' }, { status: 404 });
     }
   } catch (error) {
