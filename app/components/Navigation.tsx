@@ -17,7 +17,7 @@ const Navigation = () => {
           </li>
           <li>
             <Link href="/get-inspired" className={`px-4 py-2 rounded-full ${pathname === '/get-inspired' ? 'bg-indigo-500 text-white' : 'text-gray-700 hover:bg-indigo-100'}`}>
-              S'inspirer
+              S&apos;inspirer
             </Link>
           </li>
         </ul>
