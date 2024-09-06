@@ -115,6 +115,30 @@ const ChatInterface: React.FC = () => {
           { role: 'assistant', content: fullMessage }
         ]);
         setCurrentAssistantMessage('');
+
+        // Search for links if a plant name was extracted
+        if (plantName && plantName !== 'No plant') {
+          const searchResponse = await fetch(`/api/search-links?query=${encodeURIComponent(plantName)}`);
+          const { links } = await searchResponse.json();
+          if (links && links.length > 0) {
+            setMessages(prevMessages => {
+              const lastMessage = prevMessages[prevMessages.length - 1];
+              if (lastMessage.role === 'assistant') {
+                // Ajouter les liens au dernier message de l'assistant
+                return [
+                  ...prevMessages.slice(0, -1),
+                  { ...lastMessage, links }
+                ];
+              } else {
+                // Si le dernier message n'est pas de l'assistant, ajouter un nouveau message
+                return [
+                  ...prevMessages,
+                  { role: 'assistant', content: '', links }
+                ];
+              }
+            });
+          }
+        }
       }
     } catch (error) {
       console.error('Error:', error);

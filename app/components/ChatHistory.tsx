@@ -3,9 +3,10 @@
 import React from 'react';
 import Image from 'next/image';
 import PlantImage from './PlantImage';
+import SearchLinks from './SearchLinks';
 
 interface ChatHistoryProps {
-  messages: Array<{ role: string; content: string; plantName?: string }>;
+  messages: Array<{ role: string; content: string; plantName?: string; links?: any[] }>;
   showWelcomeMessages: boolean;
   welcomeMessages: string[];
   currentAssistantMessage: string;
@@ -44,6 +45,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ messages, showWelcomeMessages
             </div>
             {message.role === 'user' && <div className="w-6 ml-2" />}
           </div>
+          {message.links && <SearchLinks links={message.links} />}
           {message.role === 'user' && message.plantName && message.plantName !== 'No plant' && (
             <div className="flex justify-start items-end mt-4">
               <div className="flex-shrink-0 mr-2 mt-1">
@@ -55,7 +57,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ messages, showWelcomeMessages
                   className="rounded-full"
                 />
               </div>
-              <div className="max-w-[50%]"> {/* Ajusté pour réduire la taille maximale */}
+              <div className="max-w-[50%]">
                 <PlantImage plantName={message.plantName} />
               </div>
             </div>
