@@ -1,18 +1,5 @@
 import { NextResponse } from 'next/server';
 
-const BOTANICAL_SITES = [
-  'inaturalist.org',
-  'plantnet.org',
-  'gardenersworld.com',
-  'rhs.org.uk',
-  'missouribotanicalgarden.org',
-  'kew.org',
-  'botanicalart.com',
-  'plantillustrations.org',
-  'botanicalgarden.ubc.ca',
-  'botany.org'
-];
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('query');
@@ -25,9 +12,17 @@ export async function GET(request: Request) {
   }
 
   try {
-    const siteRestriction = BOTANICAL_SITES.map(site => `site:${site}`).join(' OR ');
-    const enhancedQuery = `(${siteRestriction}) ${query} plant botanical photograph -illustration -drawing -cartoon`;
-    const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_API_KEY}&cx=${process.env.GOOGLE_SEARCH_ENGINE_ID}&q=${encodeURIComponent(enhancedQuery)}&searchType=image&num=1&fileType=jpg,png&imgType=photo&imgSize=large&rights=cc_publicdomain|cc_attribute|cc_sharealike|cc_noncommercial|cc_nonderived`);
+    const enhancedQuery = `${query} plant photography`;
+    
+    console.log('Enhanced query:', enhancedQuery);
+
+    const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${process.env.GOOGLE_API_KEY}&cx=${process.env.GOOGLE_SEARCH_ENGINE_ID}&q=${encodeURIComponent(enhancedQuery)}&searchType=image&num=5&fileType=jpg,png&imgType=photo&imgSize=large`);
+    
+    if (!response.ok) {
+      console.error('Google API error:', response.status, await response.text());
+      return NextResponse.json({ error: 'Failed to fetch image' }, { status: 500 });
+    }
+
     const data = await response.json();
 
     console.log('Google API response:', JSON.stringify(data, null, 2));
